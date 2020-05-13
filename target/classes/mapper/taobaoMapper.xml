@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aitguigu.springbootmybatisquickstart.dao.ITaobaoDao">
+	<select id="findAll" resultType="Taobao">
+		select * from user_log limit 10
+	</select>
+	<!--男女买家交易对比-->
+	<select id="findGroupBy" resultMap="groupByMapper">
+		select gender as name,count(*) as value from user_log group by name ORDER BY value desc
+	</select>
+	<resultMap id="groupByMapper" type="java.util.Map">
+		<result column="gender" property="gender" jdbcType="VARCHAR"/>
+		<result column="value" property="value" jdbcType="INTEGER"/>
+	</resultMap>
+	<!--所有买家消费行为比例 {0,1,2,3},0表示点击，1表示加入购物车，2表示购买，3表示关注商品-->
+	<select id="findSaleAction" resultMap="saleActionMapper">
+		select action as name,count(*) value from user_log group by name ORDER BY value desc
+	</select>
+	<resultMap id="saleActionMapper" type="java.util.Map">
+		<result column="action" property="action" jdbcType="VARCHAR"/>
+		<result column="value" property="value" jdbcType="INTEGER"/>
+	</resultMap>
+	<!--男女买家各个年龄段交易对比-->
+	<select id="findGenderAge" resultMap="genderAgeMapper">
+		select gender,age_range,count(*) num from user_log group by gender,age_range ORDER BY num desc
+	</select>
+	<resultMap id="genderAgeMapper" type="java.util.Map">
+		<result column="gender" property="gender" jdbcType="VARCHAR"/>
+		<result column="age_range" property="age_range" jdbcType="VARCHAR"/>
+		<result column="num" property="num" jdbcType="INTEGER"/>
+	</resultMap>
+	<!--//获取销量前五的商品类别-->
+	<select id="findTopFive" resultMap="topFiveMap">
+		select cat_id,count(*) num from user_log group by cat_id order by num desc limit 5
+	</select>
+	<resultMap id="topFiveMap" type="java.util.Map">
+		<result column="cat_id" property="cat_id" jdbcType="VARCHAR"/>
+		<result column="num" property="num" jdbcType="INTEGER"/>
+	</resultMap>
+	<!--//各个省份的总成交量对比-->
+	<select id="findProvince" resultMap="provinceMap">
+		select province,count(*) num from user_log group by province order by num desc
+	</select>
+	<resultMap id="provinceMap" type="java.util.Map">
+		<result column="province" property="province" jdbcType="VARCHAR"/>
+		<result column="num" property="num" jdbcType="INTEGER"/>
+	</resultMap>
+</mapper>

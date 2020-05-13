@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dbtaobao?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: password
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.aitguigu.springbootmybatisquickstart.domain
+  #开启驼峰命名 该配置项就是指将带有下划线的表字段映射为驼峰格式的实体类属性
+  configuration:
+    map-underscore-to-camel-case: false
+# mybatis相关配置
